@@ -10,30 +10,29 @@ import wind_icon from "../assets/wind.png";
 import humidity_icon from "../assets/humidity.png";
 
 const Weather = () => {
+  const inputRef = useRef();
 
-  const inputRef=useRef()
-
-  const [weatherData,setWeatherData] =useState(false) ;
-  const allIcons={
+  const [weatherData, setWeatherData] = useState(false);
+  const allIcons = {
     "01d": clear_icon,
-    "01n":clear_icon,
-    "02d":cloud_icon,
-    "02n":cloud_icon,
-    "03d":cloud_icon,
-    "03n":drizzle_icon,
-    "04d":drizzle_icon,
-    "04n":rain_icon,
-    "09d":rain_icon,
-    "09n":rain_icon,
-    "010d":rain_icon,
-    "010n":rain_icon,
-    "013d":snow_icon,
-    "013n":snow_icon,
-  }
+    "01n": clear_icon,
+    "02d": cloud_icon,
+    "02n": cloud_icon,
+    "03d": cloud_icon,
+    "03n": drizzle_icon,
+    "04d": drizzle_icon,
+    "04n": rain_icon,
+    "09d": rain_icon,
+    "09n": rain_icon,
+    "010d": rain_icon,
+    "010n": rain_icon,
+    "013d": snow_icon,
+    "013n": snow_icon,
+  };
   const search = async (city) => {
-    if(city===""){
+    if (city === "") {
       alert("Enter City Name");
-      return
+      return;
     }
     try {
       const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${
@@ -43,30 +42,28 @@ const Weather = () => {
       const response = await fetch(url);
       const data = await response.json();
 
-      if(!response.ok){
+      if (!response.ok) {
         alert(data.message);
         return;
       }
-        
 
       console.log(data);
-      const icon=allIcons[data.weather[0].icon]|| clear_icon;
+      const icon = allIcons[data.weather[0].icon] || clear_icon;
       setWeatherData({
-        humidity:data.main.humidity,
+        humidity: data.main.humidity,
         windSpeed: data.wind.speed,
-        temperature:Math.floor(data.main.temp),
-        location:data.name,
-        icon:icon
+        temperature: Math.floor(data.main.temp),
+        location: data.name,
+        icon: icon,
       });
     } catch (error) {
-
       setWeatherData(false);
       console.error("Error in Fetching Weather data");
     }
   };
 
   useEffect(() => {
-    search("New York");
+    search("Sri lanka");
   }, []);
 
   return (
